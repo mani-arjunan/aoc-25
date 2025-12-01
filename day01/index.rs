@@ -78,16 +78,20 @@ fn main() -> io::Result<()> {
             first_rotation = max;
         }
 
-        let rotate_value: f32 = (rotation - first_rotation) as f32 / max as f32;
-        result += (1.0 + rotate_value.floor()) as i32;
+        let final_rotation: f32 = (rotation - first_rotation) as f32 / max as f32;
+        result += final_rotation.ceil() as i32;
 
         if direction == "L" {
             current = ((current - rotation) % max + max) % max;
         } else  {
             current = (current + rotation) % max;
         }
+
+        if current == 0 {
+            result += 1;
+        }
     }
     println!("{}", result);
 
-    Ok(())
+    return Ok(());
 }
