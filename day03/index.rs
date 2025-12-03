@@ -6,21 +6,26 @@ use std::io::BufRead;
 fn largest_num_based_on_length(num_in_str: &str, len: i64) -> String {
     let mut possible_to_remove: i64 = num_in_str.len() as i64 - len;
     let mut stack: Vec<char> = Vec::new();
+    let mut result = String::from("");
 
     for ch in num_in_str.chars() {
-        while possible_to_remove > 0 && !stack.is_empty() && stack.last().unwrap() < &ch {
+        while
+            possible_to_remove > 0 &&
+            !stack.is_empty() &&
+            stack.last().unwrap() < &ch
+        {
             stack.pop();
             possible_to_remove -= 1;
         }
         stack.push(ch);
     }
 
-    let joined_str = stack
-        .iter()
-        .take(len as usize)
-        .collect::<String>();
+    println!("{:?}", stack);
+    for i in 0..(len as usize) {
+        result.push(stack[i]);
+    }
 
-    return joined_str;
+    return result;
 }
 
  // part1
@@ -58,15 +63,15 @@ fn largest_num_based_on_length(num_in_str: &str, len: i64) -> String {
 // part 2
 fn main() -> io::Result<()> {
     let mut result: i64 = 0;
-    // let static_input = "
-    //     987654321111111
-    //     811111111111119
-    //     234234234234278
-    //     818181911112111
-    // ";
-    // let reader = BufReader::new(static_input.as_bytes());
-    let file = File::open("./input.txt")?;
-    let reader = BufReader::new(file);
+    let static_input = "
+        987654321111111
+        811111111111119
+        234234234234278
+        818181911112111
+    ";
+    let reader = BufReader::new(static_input.as_bytes());
+    // let file = File::open("./input.txt")?;
+    // let reader = BufReader::new(file);
 
     for line_result in reader.lines() {
         let line = line_result?;
@@ -86,5 +91,3 @@ fn main() -> io::Result<()> {
     Ok(())
 }
 
-
-// part2
